@@ -24,6 +24,34 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const detailsCollection = client.db("toy_car_db").collection("details");
+
+    app.get("/details", async (req, res) => {
+      const cursor = detailsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    const querySportsCar = { subCategory: "sportsCar" };
+    app.get("/details/subCategory/sportsCar", async (req, res) => {
+      const cursor = detailsCollection.find(querySportsCar);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    const queryTruck = { subCategory: "truck" };
+    app.get("/details/subCategory/truck", async (req, res) => {
+      const cursor = detailsCollection.find(queryTruck);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    const queryMiniFireTruck = { subCategory: "miniFireTruck" };
+    app.get("/details/subCategory/miniFireTruck", async (req, res) => {
+      const cursor = detailsCollection.find(queryMiniFireTruck);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
@@ -31,7 +59,7 @@ async function run() {
     );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
