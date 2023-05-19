@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const cors = require("cors");
 const app = express();
@@ -33,22 +33,37 @@ async function run() {
       res.send(result);
     });
 
+    // const querySportsCar = { subCategory: "sportsCar" };
+    // app.get("/details/subCategory/sportsCars", async (req, res) => {
+    //   const cursor = detailsCollection.find(querySportsCar);
+    //   const result = await cursor.toArray();
+    //   res.send(result);
+    // });
     const querySportsCar = { subCategory: "sportsCar" };
-    app.get("/details/subCategory/sportsCar", async (req, res) => {
-      const cursor = detailsCollection.find(querySportsCar);
+
+    app.get("/details/subCategory/sportsCars", async (req, res) => {
+      const cursor = detailsCollection.find(querySportsCar).limit(2);
       const result = await cursor.toArray();
       res.send(result);
     });
+
     const queryTruck = { subCategory: "truck" };
-    app.get("/details/subCategory/truck", async (req, res) => {
-      const cursor = detailsCollection.find(queryTruck);
+    app.get("/details/subCategory/trucks", async (req, res) => {
+      const cursor = detailsCollection.find(queryTruck).limit(2);
       const result = await cursor.toArray();
       res.send(result);
     });
     const queryMiniFireTruck = { subCategory: "miniFireTruck" };
-    app.get("/details/subCategory/miniFireTruck", async (req, res) => {
-      const cursor = detailsCollection.find(queryMiniFireTruck);
+    app.get("/details/subCategory/miniFireTrucks", async (req, res) => {
+      const cursor = detailsCollection.find(queryMiniFireTruck).limit(2);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.get("/details/subCategory/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await detailsCollection.findOne(query);
       res.send(result);
     });
 
