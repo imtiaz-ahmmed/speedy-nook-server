@@ -28,17 +28,11 @@ async function run() {
     const detailsCollection = client.db("toy_car_db").collection("details");
 
     app.get("/details", async (req, res) => {
-      const cursor = detailsCollection.find();
+      const cursor = detailsCollection.find().limit(20);
       const result = await cursor.toArray();
       res.send(result);
     });
 
-    // const querySportsCar = { subCategory: "sportsCar" };
-    // app.get("/details/subCategory/sportsCars", async (req, res) => {
-    //   const cursor = detailsCollection.find(querySportsCar);
-    //   const result = await cursor.toArray();
-    //   res.send(result);
-    // });
     const querySportsCar = { subCategory: "sportsCar" };
 
     app.get("/details/subCategory/sportsCars", async (req, res) => {
