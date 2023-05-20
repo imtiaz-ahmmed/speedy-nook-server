@@ -61,11 +61,20 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/myToys/:email", async (req, res) => {
+      console.log(req.params.email);
+      const result = await detailsCollection
+        .find({ sellerEmail: req.params.email })
+        .toArray();
+      res.send(result);
+    });
+
     app.post("/details", async (req, res) => {
       const addToy = req.body;
       const result = await detailsCollection.insertOne(addToy);
       res.send(result);
     });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
