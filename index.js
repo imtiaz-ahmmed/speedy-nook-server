@@ -65,6 +65,7 @@ async function run() {
       console.log(req.params.email);
       const result = await detailsCollection
         .find({ sellerEmail: req.params.email })
+
         .toArray();
       res.send(result);
     });
